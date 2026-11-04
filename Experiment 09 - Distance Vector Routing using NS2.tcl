@@ -1,27 +1,31 @@
-# Create simulator
-set ns [new Simulator]
+# AIM:
+# To simulate Distance Vector Routing Algorithm using the NS-2 simulation tool.
+#
+# ALGORITHM:
+# 1. Create an NS-2 simulator and select Distance Vector routing using rtproto DV.
+# 2. Open NAM and trace files.
+# 3. Create eight nodes and connect them in a ring topology using duplex links.
+# 4. Attach a UDP source and Null destination, and connect them.
+# 5. Attach a CBR traffic generator and configure packet size and interval.
+# 6. Schedule traffic, a link failure, link recovery, and simulation termination.
+# 7. Run NS-2 and observe the routing response in NAM.
 
-# Enable Distance Vector routing
+set ns [new Simulator]
 $ns rtproto DV
 
-# Trace files
 set nf [open out.nam w]
 $ns namtrace-all $nf
-
 set nt [open trace.tr w]
 $ns trace-all $nt
 
-# Finish procedure
 proc finish {} {
-global ns nf nt
-$ns flush-trace
-close $nf
-close $nt
-exec nam -a out.nam &amp;
-exit 0
+    global ns nf nt
+    $ns flush-trace
+    close $nf
+    close $nt
+    exec nam -a out.nam &
+    exit 0
 }
-
-# Create nodes
 
 set n1 [$ns node]
 set n2 [$ns node]
@@ -32,7 +36,6 @@ set n6 [$ns node]
 set n7 [$ns node]
 set n8 [$ns node]
 
-# Create links
 $ns duplex-link $n1 $n2 1Mb 10ms DropTail
 $ns duplex-link $n2 $n3 1Mb 10ms DropTail
 $ns duplex-link $n3 $n4 1Mb 10ms DropTail
@@ -42,7 +45,6 @@ $ns duplex-link $n6 $n7 1Mb 10ms DropTail
 $ns duplex-link $n7 $n8 1Mb 10ms DropTail
 $ns duplex-link $n8 $n1 1Mb 10ms DropTail
 
-# Link orientation (for NAM)
 $ns duplex-link-op $n1 $n2 orient left-up
 $ns duplex-link-op $n2 $n3 orient up
 $ns duplex-link-op $n3 $n4 orient right-up
@@ -52,39 +54,23 @@ $ns duplex-link-op $n6 $n7 orient down
 $ns duplex-link-op $n7 $n8 orient left-down
 $ns duplex-link-op $n8 $n1 orient left
 
-# UDP Agent
 set udp0 [new Agent/UDP]
 $ns attach-agent $n1 $udp0
 
-# CBR Traffic
 set cbr0 [new Application/Traffic/CBR]
 $cbr0 set packetSize_ 500
 $cbr0 set interval_ 0.005
 $cbr0 attach-agent $udp0
 
-# Null Agent (Sink)
 set null0 [new Agent/Null]
 $ns attach-agent $n4 $null0
-
-# Connect UDP to Null
 $ns connect $udp0 $null0
 
-# Labels
-$ns at 0.0 &quot;$n1 label Source&quot;
-$ns at 0.0 &quot;$n4 label Destination&quot;
-
-# Start traffic
-$ns at 0.5 &quot;$cbr0 start&quot;
-
-# Link failure and recovery
+$ns at 0.0 "$n1 label Source"
+$ns at 0.0 "$n4 label Destination"
+$ns at 0.5 "$cbr0 start"
 $ns rtmodel-at 1.0 down $n3 $n4
 $ns rtmodel-at 2.0 up $n3 $n4
-
-# Stop traffic
-$ns at 4.5 &quot;$cbr0 stop&quot;
-
-# End simulation
-$ns at 5.0 &quot;finish&quot;
-
-# Run simulation
+$ns at 4.5 "$cbr0 stop"
+$ns at 5.0 "finish"
 $ns run
