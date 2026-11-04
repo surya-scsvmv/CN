@@ -1,0 +1,51 @@
+AIM:
+To capture Real-time Transport Protocol (RTP) traffic from a VoIP or streaming session and analyse packet delay (jitter), packet loss, and out-of-order delivery using Wireshark.
+
+ALGORITHM:
+1. Start Wireshark and capture traffic on the interface used by the call.
+2. Place a VoIP call between two endpoints or open an existing VoIP capture file.
+3. Allow media traffic to flow for at least 20-30 seconds, then stop the capture.
+4. If RTP is not detected automatically, use Decode As on a UDP media packet and select RTP.
+5. Open Telephony > RTP > RTP Streams.
+6. Select the required stream and click Analyze.
+7. Examine sequence number, Delta, Jitter, Skew, and Status fields.
+8. Record total packets, lost packets, maximum jitter, and mean jitter.
+9. Optionally use Play Streams and inspect RTCP packets.
+
+SOFTWARE REQUIRED:
+- Computer with active Ethernet or Wi-Fi interface.
+- Wireshark 3.x or later with Npcap installed.
+- A VoIP/streaming session or an existing RTP capture file.
+- Administrator privileges for packet capture.
+
+THEORY / METRICS
+- Packet loss: missing sequence numbers in the RTP stream.
+- Jitter: variation in packet inter-arrival time.
+- Out-of-order / late packets: packets received after their expected playback position.
+- Delta: elapsed time since the previous packet in the stream.
+- Skew: drift between expected and actual packet arrival.
+
+Useful Wireshark display filters:
+
+rtp
+rtcp
+rtp.ssrc == 0x12345678
+rtp.marker == 1
+sip
+
+OBSERVATION TABLE
+Enter the values from your own RTP Streams and Analyze windows.
+
+Parameter | Stream A -> B | Stream B -> A
+Codec / Payload | Record observed codec | Record observed codec
+Total packets | Record observed count | Record observed count
+Lost packets (count / %) | Record observed value | Record observed value
+Maximum jitter (ms) | Record observed value | Record observed value
+Mean jitter (ms) | Record observed value | Record observed value
+Maximum delta (ms) | Record observed value | Record observed value
+Quality assessment | Record assessment | Record assessment
+
+The manual provides an example observation: G.711 (PCMU), 1500 and 1498 packets, 6 (0.40%) and 2 (0.13%) lost packets, and mean jitter of 6.2 ms and 4.9 ms. These are sample values only; record measurements from your own capture.
+
+RESULT:
+An RTP stream was captured and analysed in Wireshark. Packet delay (jitter), packet loss, and out-of-order delivery were measured using RTP Streams.
