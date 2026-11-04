@@ -1,0 +1,44 @@
+AIM:
+To capture live traffic from the local network interface and inspect packets, protocol layers, TCP conversations, and traffic statistics.
+
+ALGORITHM:
+1. Open Wireshark and select the active network interface.
+2. Start packet capture.
+3. Generate traffic by opening a website or running ping and nslookup commands.
+4. Stop capture after enough packets have been collected.
+5. Apply a display filter such as dns or icmp.
+6. Select a packet and inspect Ethernet, IP, TCP/UDP, and application layers.
+7. Use Follow > TCP Stream to reassemble a TCP conversation.
+8. Open Statistics > Protocol Hierarchy, Conversations, Endpoints, and I/O Graph as required.
+9. Save the capture as a .pcapng file if required.
+
+SOFTWARE REQUIRED:
+- Computer connected to an Ethernet or Wi-Fi network.
+- Wireshark installed with Npcap.
+- Administrator privileges for packet capture.
+- Web browser or ping utility to generate traffic.
+
+PROCEDURE
+1. Open Wireshark and double-click the active network interface.
+2. Generate traffic by opening a website or running:
+   ping www.google.com
+   nslookup www.google.com
+3. Observe the packet list and stop the capture.
+4. Apply dns to inspect DNS packets or icmp to inspect ping packets.
+5. Select a packet and expand the details tree.
+6. Right-click a TCP packet and choose Follow > TCP Stream.
+7. Open Statistics > Protocol Hierarchy to review protocol distribution.
+8. Open Statistics > Conversations and Statistics > Endpoints to inspect communicating hosts.
+9. Optionally open Statistics > I/O Graph to view traffic volume over time.
+10. Save the capture using File > Save As.
+
+OBSERVATION TABLE
+Packet No. | Source IP | Destination IP | Protocol | Information
+1 | Record observed value | Record observed value | DNS | DNS query
+2 | Record observed value | Record observed value | DNS | DNS response
+3 | Record observed value | Record observed value | TCP | SYN connection request
+4 | Record observed value | Record observed value | TCP | SYN, ACK response
+5 | Record observed value | Record observed value | ICMP | Echo request
+
+RESULT:
+Live packets were captured from the network interface and inspected in Wireshark.
