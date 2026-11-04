@@ -144,9 +144,6 @@ Computer Networks Laboratory coursework — **Sri Chandrasekharendra Saraswathi 
 - [Design and Analysis of Algorithms](https://github.com/surya-scsvmv/DAA)
 - [Data Visualization Lab](https://github.com/surya-scsvmv/DV)
 
-## Source and attribution
-
-This repository is organized for coursework and learning. Some material was adapted from publicly available networking lab examples, including the [reference repository](https://github.com/11249a362-sud/CN-lab-record-). Please consult the original repository's licensing and attribution terms before redistributing adapted material.
 
 ---
 
