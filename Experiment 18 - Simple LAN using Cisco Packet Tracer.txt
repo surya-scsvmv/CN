@@ -1,0 +1,47 @@
+AIM:
+To design and build a simple Local Area Network (LAN) in Cisco Packet Tracer by connecting end devices through a switch, assigning IP addresses, and verifying end-to-end connectivity using ping.
+
+ALGORITHM:
+1. Open Cisco Packet Tracer.
+2. Place one 2960 switch and three PCs in the logical workspace.
+3. Connect each PC FastEthernet0 interface to a switch port using Copper Straight-Through cables.
+4. Configure static IPv4 addresses and subnet masks on all PCs.
+5. Wait for the link indicators to become green.
+6. Use the PC command prompt to ping the other PCs.
+7. Verify successful replies and save the topology as a .pkt file.
+
+SOFTWARE REQUIRED:
+- Cisco Packet Tracer (version 8.x recommended).
+- Basic knowledge of IPv4 addressing and subnet masks.
+
+NETWORK TOPOLOGY:
+Three PCs connected to one 2960 switch.
+
+ADDRESSING PLAN
+
+Device | Interface | IP Address | Subnet Mask
+PC0 | FastEthernet0 | 192.168.1.1 | 255.255.255.0
+PC1 | FastEthernet0 | 192.168.1.2 | 255.255.255.0
+PC2 | FastEthernet0 | 192.168.1.3 | 255.255.255.0
+
+PROCEDURE
+1. Open Cisco Packet Tracer.
+2. Choose Network Devices > Switches, select the 2960 switch, and place it in the workspace.
+3. Choose End Devices and place PC0, PC1, and PC2.
+4. Select Connections and choose Copper Straight-Through.
+5. Connect each PC FastEthernet0 port to a free FastEthernet port on the switch.
+6. On PC0, open Desktop > IP Configuration, select Static, and enter 192.168.1.1 with subnet mask 255.255.255.0.
+7. Configure PC1 as 192.168.1.2 and PC2 as 192.168.1.3 with the same subnet mask.
+8. Wait for the link lights to turn green.
+9. On PC0, open Desktop > Command Prompt and run:
+   ping 192.168.1.2
+   ping 192.168.1.3
+10. Repeat from the other PCs to check connectivity.
+11. Optionally use Simulation mode to observe ICMP packets.
+12. Save the project using File > Save As with a .pkt extension.
+
+SAMPLE OBSERVATION
+A successful ping displays replies from the destination and packet statistics. The manual notes that the first request may time out while ARP resolves the destination MAC address; subsequent replies confirm connectivity.
+
+RESULT:
+A simple LAN of three PCs connected through a 2960 switch was built. IP addresses were assigned in the 192.168.1.0/24 network, and end-to-end connectivity was verified using ping.
