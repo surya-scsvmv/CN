@@ -1,119 +1,71 @@
-1. Find Hostname and IP Address Using Python
-
-import socket
-
-# Get the hostname of the machine
-
-hostname = socket.gethostname()
-
-# Get the IP address associated with the hostname
-
-ip_address = socket.gethostbyname(hostname)
-
-# Display the results
-
-print("Hostname:", hostname)
-
-print("IP Address:", ip_address)
-
-2.Display All IP Addresses of the System
-
-import socket
-
-hostname = socket.gethostname()
-
-# Get all address information
-
-addresses = socket.getaddrinfo(hostname, None)
-
-print("Hostname:", hostname)
-
-print("All IP Addresses:")
-
-ip_list = set()
-
-for addr in addresses:
-
-ip = addr[4][0]
-
-ip_list.add(ip)
-
-for ip in ip_list:
-
-print(ip)
-
-3.Display Public IP Address
+# AIM:
+# To write a Python program to identify the machine's host name and IP address.
+#
+# ALGORITHM:
+# 1. Import the socket, os, json, and urllib modules as required.
+# 2. Retrieve the local host name and resolve its IP address.
+# 3. Display all addresses returned for the local host.
+# 4. Resolve a website name and display its IP address.
+# 5. Accept a domain name for DNS lookup and display the result.
+# 6. Run a ping command for a user-provided host.
+# 7. Optionally check TCP ports 1 through 100 on a host you own or are authorized to test.
 
 import json
-
+import os
 import socket
-
 from urllib.request import urlopen
 
-hostname = socket.gethostname()
 
-local_ip = socket.gethostbyname(hostname)
+def main():
+    hostname = socket.gethostname()
+    try:
+        local_ip = socket.gethostbyname(hostname)
+    except socket.gaierror:
+        local_ip = "Unable to resolve local hostname"
 
-try:
+    print("Hostname:", hostname)
+    print("IP Address:", local_ip)
 
-with urlopen("https://api.ipify.org?format=json", timeout=5) as response:
+    print("\nAll IP Addresses:")
+    addresses = socket.getaddrinfo(hostname, None)
+    for address in sorted({item[4][0] for item in addresses}):
+        print(address)
 
-data = json.load(response)
+    print("\nPublic IP Address:")
+    try:
+        with urlopen("https://api.ipify.org?format=json", timeout=5) as response:
+            public_ip = json.load(response).get("ip", "Unknown")
+        print(public_ip)
+    except Exception as error:
+        print("Unable to fetch public IP:", error)
 
-public_ip = data.get("ip", "Unknown")
+    website = "www.google.com"
+    try:
+        print("\nWebsite:", website)
+        print("Website IP Address:", socket.gethostbyname(website))
+    except socket.gaierror as error:
+        print("DNS resolution failed:", error)
 
-except Exception as e:
+    domain = input("\nEnter a domain for DNS lookup: ").strip()
+    if domain:
+        try:
+            print("DNS Lookup:", socket.gethostbyname_ex(domain))
+        except socket.gaierror as error:
+            print("DNS lookup failed:", error)
 
-public_ip = f"Unable to fetch public IP: {e}"
+    target = input("\nEnter a host to ping (or press Enter to skip): ").strip()
+    if target:
+        os.system(f"ping -n 4 {target}")
 
-print("- Hostname:", hostname)
+    scan_target = input("\nEnter an authorized host for TCP port check (or press Enter to skip): ").strip()
+    if scan_target:
+        print("Checking TCP ports 1-100 on", scan_target)
+        for port in range(1, 101):
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
+                client.settimeout(0.2)
+                if client.connect_ex((scan_target, port)) == 0:
+                    print("Open TCP port:", port)
 
-print("- Local IP:", local_ip)
 
-print("- Public IP:", public_ip)
-
-4. Find Website IP Address
-
-import socket
-
-website = "www.google.com"
-
-ip = socket.gethostbyname(website)
-
-print("Website :", website)
-
-print("IP Address :", ip)
-
-5. DNS Lookup
-
-import socket
-
-host = input("Enter Website: ")
-
-print(socket.gethostbyname_ex(host))
-
-6. Ping
-
-import os
-
-host = input("Enter IP:")
-
-os.system("ping " + host)
-
-7. Find Port Number of a Service
-
-import socket
-
-target = input("Enter IP Address: ")
-
-for port in range(1, 101):
-
-s = socket.socket()
-
-result = s.connect_ex((target, port))
-
-if result == 0:
-
-print("Port", port, "is Open")
-
-s.close()
+if __name__ == "__main__":
+    main()
