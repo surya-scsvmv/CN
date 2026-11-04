@@ -1,235 +1,53 @@
-class ARP_RARP_Simulator:
+# AIM: To simulate ARP (IP-to-MAC) and RARP (MAC-to-IP) address resolution.
+# ALGORITHM:
+# 1. Create a sample ARP table containing IP-to-MAC mappings.
+# 2. Build a reverse RARP table from the same mappings.
+# 3. For ARP, accept an IP address and search for its MAC address.
+# 4. For RARP, accept a MAC address and search for its IP address.
+# 5. Display the mapping when found or an explanatory message otherwise.
+
+class ARPRARPSimulator:
+    def __init__(self):
+        self.arp_table = {
+            "192.168.1.1": "00:0a:95:9d:68:16",
+            "192.168.1.2": "00:0a:95:9d:68:17",
+            "192.168.1.3": "00:0a:95:9d:68:18",
+        }
+        self.rarp_table = {mac: ip for ip, mac in self.arp_table.items()}
+
+    def arp_request(self, ip_address):
+        mac_address = self.arp_table.get(ip_address)
+        if mac_address:
+            print(f"ARP Reply: {ip_address} is at {mac_address}")
+            return mac_address
+        print(f"ARP Reply: {ip_address} is not found")
+        return None
+
+    def rarp_request(self, mac_address):
+        ip_address = self.rarp_table.get(mac_address.lower())
+        if ip_address:
+            print(f"RARP Reply: {mac_address} is associated with IP {ip_address}")
+            return ip_address
+        print(f"RARP Reply: {mac_address} is not found")
+        return None
+
+    def display_tables(self):
+        print("\nARP TABLE (IP -> MAC)")
+        for ip_address, mac_address in self.arp_table.items():
+            print(f"{ip_address:16} {mac_address}")
+        print("\nRARP TABLE (MAC -> IP)")
+        for mac_address, ip_address in self.rarp_table.items():
+            print(f"{mac_address:20} {ip_address}")
+
+
+def main():
+    simulator = ARPRARPSimulator()
+    simulator.display_tables()
+    print("\nARP lookup")
+    simulator.arp_request(input("Enter IP address: ").strip())
+    print("\nRARP lookup")
+    simulator.rarp_request(input("Enter MAC address: ").strip())
 
-def __init__(self):
-
-# ARP Table: IP Address -> MAC Address
-
-self.arp_table = {
-
-"192.168.1.1": "00:0a:95:9d:68:16",
-
-"192.168.1.2": "00:0a:95:9d:68:17",
-
-"192.168.1.3": "00:0a:95:9d:68:18"
-
-}
-# RARP Table: MAC Address -> IP Address
-
-self.rarp_table = {
-
-mac: ip
-
-for ip, mac in self.arp_table.items()
-
-}
-# ARP: IP Address -> MAC Address
-
-def arp_request(self, ip_address):
-print("\n----------------------------------------")
-
-print("ARP REQUEST")
-
-print("----------------------------------------")
-print(
-
-f"ARP Request: Who has {ip_address}? "
-
-"Tell me your MAC address."
-
-)
-
-# Search for IP address
-
-mac_address = self.arp_table.get(ip_address)
-
-if mac_address:
-
-print(
-
-f"ARP Reply: {ip_address} "
-
-f"is at {mac_address}."
-
-)
-
-return mac_address
-
-else:
-
-print(
-
-f"ARP Reply: {ip_address} "
-
-"is not found."
-
-)
-
-return None
-
-# RARP: MAC Address -> IP Address
-
-def rarp_request(self, mac_address):
-
-print("\n----------------------------------------")
-
-print("RARP REQUEST")
-
-print("----------------------------------------")
-
-print(
-
-f"RARP Request: Who has MAC address "
-
-f"{mac_address}? Tell me your IP address."
-
-)
-
-# Search for MAC address
-
-ip_address = self.rarp_table.get(mac_address)
-
-if ip_address:
-
-print(
-
-f"RARP Reply: {mac_address} "
-
-f"is associated with IP {ip_address}."
-
-)
-
-return ip_address
-
-else:
-
-print(
-
-f"RARP Reply: {mac_address} "
-
-"is not found."
-
-)
-
-return None
-
-# Display ARP Table
-
-def display_arp_table(self):
-
-print("\n========================================")
-
-print("ARP TABLE")
-
-print("========================================")
-
-print("IP Address\t\tMAC Address")
-
-print("----------------------------------------")
-
-for ip, mac in self.arp_table.items():
-
-print(f"{ip}\t\t{mac}")
-
-# Display RARP Table
-
-def display_rarp_table(self):
-
-print("\n========================================")
-
-print("RARP TABLE")
-
-print("========================================")
-
-print("MAC Address\t\t\tIP Address")
-
-print("----------------------------------------")
-
-for mac, ip in self.rarp_table.items():
-
-print(f"{mac}\t{ip}")
-
-# Add new IP and MAC entry
-
-def add_entry(self, ip_address, mac_address):
-
-self.arp_table[ip_address] = mac_address
-
-self.rarp_table[mac_address] = ip_address
-
-print("\nEntry added successfully.")
-
-print(f"IP : {ip_address}")
-
-print(f"MAC : {mac_address}")
-
-# Main Program
 
 if __name__ == "__main__":
-
-# Create simulator
-
-simulator = ARP_RARP_Simulator()
-
-print("\n==============================================")
-
-print(" ARP AND RARP SIMULATOR")
-
-print("==============================================")
-
-# Display ARP table
-
-simulator.display_arp_table()
-
-# Display RARP table
-
-simulator.display_rarp_table()
-
-# ARP Examples
-
-print("\n========== ARP EXAMPLES ==========")
-
-simulator.arp_request("192.168.1.1")
-
-simulator.arp_request("192.168.1.2")
-
-simulator.arp_request("192.168.1.100")
-
-# RARP Examples
-
-print("\n========== RARP EXAMPLES ==========")
-
-simulator.rarp_request(
-
-"00:0a:95:9d:68:16"
-
-)
-
-simulator.rarp_request(
-
-"00:0a:95:9d:68:17"
-
-)
-
-simulator.rarp_request(
-
-"00:0a:95:9d:68:99"
-
-)
-
-# Add new entry
-
-print("\n========== ADD NEW ENTRY ==========")
-
-simulator.add_entry(
-
-"192.168.1.4",
-
-"00:0a:95:9d:68:19"
-
-)
-
-# Display updated tables
-
-simulator.display_arp_table()
-
-simulator.display_rarp_table()
+    main()

@@ -1,0 +1,54 @@
+AIM:
+To capture Real-time Transport Protocol (RTP) traffic from a VoIP/streaming session and analyse packet delay (jitter), packet loss, and out-of-order delivery using Wireshark telephony analysis tools.
+
+SOFTWARE REQUIRED:
+- Computer with an active network interface (Ethernet or Wi-Fi).
+- Wireshark (version 3.x or later) installed with Npcap on Windows.
+- Administrator privileges for packet capture.
+- A VoIP/streaming session or an existing RTP packet-capture file (.pcap / .pcapng).
+
+THEORY:
+RTP carries audio and video for VoIP and streaming applications and commonly runs over UDP. Each RTP packet contains a sequence number and timestamp. A gap in sequence numbers can indicate packet loss. Jitter is variation in packet inter-arrival time. Packets that arrive too late or out of sequence may affect playback. RTCP (RTP Control Protocol) can report statistics such as cumulative packet loss and jitter.
+
+KEY METRICS:
+| Metric | Meaning | Reference described in the manual |
+|---|---|---|
+| Maximum / mean jitter | Variation in packet arrival time | Mean below 30 ms is good for voice |
+| Lost packets (%) | Sequence-number gaps as a fraction | Below 1% is good; above 5% is poor |
+| Delta (ms) | Time since the previous packet in the stream | About 20 ms for G.711 at 50 packets/s |
+| Skew | Drift between expected and actual arrival | Near zero is ideal |
+
+PROCEDURE (WINDOWS):
+1. Start Wireshark as administrator and begin capturing on the interface carrying the call, or open an existing capture using File > Open.
+2. Place a VoIP call between two endpoints, or use a supplied/recorded RTP capture file.
+3. Let the call run for at least 20–30 seconds so enough media packets are captured, then stop the capture.
+4. If Wireshark does not recognise the media as RTP, right-click a UDP packet from the media stream, choose Decode As, and select RTP where appropriate.
+5. Open Telephony > RTP > RTP Streams. Review the listed streams, source/destination addresses, payload codec, packet count, lost packets, and maximum jitter.
+6. Select the stream to analyse and click Analyze.
+7. Inspect Sequence Number, Delta (ms), Jitter (ms), Skew, and Status. Warnings such as wrong sequence number or incorrect timestamp may indicate loss or reordering.
+8. Record total packets, lost packets and percentage, maximum jitter, and mean jitter from the analysis summary.
+9. Optionally choose Play Streams to listen to reconstructed audio, or open Telephony > VoIP Calls for a call-level view.
+10. Optionally apply the `rtcp` display filter to inspect RTCP reports.
+
+USEFUL DISPLAY FILTERS:
+```text
+rtp
+rtcp
+rtp.ssrc == 0x12345678
+rtp.marker == 1
+sip
+```
+
+SAMPLE OBSERVATION TABLE (replace these illustrative values with measurements from your own capture):
+| Parameter | Stream A to B | Stream B to A |
+|---|---:|---:|
+| Codec / Payload | G.711 (PCMU) | G.711 (PCMU) |
+| Total packets | 1500 | 1498 |
+| Lost packets (count / %) | 6 / 0.40% | 2 / 0.13% |
+| Maximum jitter (ms) | 18.4 | 12.1 |
+| Mean jitter (ms) | 6.2 | 4.9 |
+| Maximum delta (ms) | 42.7 | 31.5 |
+| Quality assessment | Good | Good |
+
+RESULT:
+Thus, an RTP stream was captured and analysed in Wireshark. Packet delay (jitter), packet loss, and out-of-order delivery were measured using RTP Streams analysis.

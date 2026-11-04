@@ -1,0 +1,56 @@
+AIM:
+To write and apply Wireshark capture-filter and display-filter expressions to isolate relevant packets during network analysis.
+
+SOFTWARE REQUIRED:
+- Windows 10/11 computer with an active network interface.
+- Wireshark 3.x or later with Npcap installed.
+- Administrator privileges for packet capture.
+
+THEORY:
+Wireshark supports two filter types. Capture filters use BPF/libpcap syntax and are set before capturing; non-matching packets are not recorded. Display filters use Wireshark's own field syntax and are applied after capture; they hide non-matching packets without deleting them. For example, `tcp port 80` is a capture filter, while `tcp.port == 80` is a display filter.
+
+EXAMPLES:
+
+Capture filters (Capture > Options):
+- `host 192.168.1.10` — traffic to or from one host.
+- `net 192.168.1.0/24` — traffic on a subnet.
+- `src host 192.168.1.10` — packets from a host.
+- `dst port 53` — traffic to DNS port 53.
+- `tcp port 443` — TCP traffic on port 443.
+- `udp` — UDP traffic.
+- `not arp and not broadcast` — exclude ARP and broadcast traffic.
+
+Display filters (green filter bar):
+- `ip.addr == 192.168.1.10` — packets to or from an IP.
+- `ip.src == 192.168.1.10` — packets from an IP.
+- `tcp.port == 80` — TCP packets using port 80.
+- `http` — HTTP packets.
+- `dns` — DNS packets.
+- `http.request.method == "GET"` — HTTP GET requests.
+- `tcp.flags.syn == 1 && tcp.flags.ack == 0` — TCP SYN connection starts.
+- `tcp.analysis.retransmission` — retransmitted TCP segments.
+- `ip.addr == 192.168.1.10 && tcp.port == 443` — packets matching both conditions.
+- `frame contains "example"` — frames containing the specified text.
+
+PROCEDURE (WINDOWS):
+1. Launch Wireshark as administrator.
+2. Select the Wi-Fi or Ethernet interface that is carrying traffic.
+3. To set a capture filter, open Capture > Options and enter an expression such as `host 192.168.1.10` in the capture-filter field.
+4. Confirm Wireshark accepts the filter, then start capturing.
+5. Generate traffic using a browser or Command Prompt, for example `ping -n 4 8.8.8.8` and `nslookup www.google.com`.
+6. Stop capturing.
+7. Enter a display filter such as `dns` or `icmp` in the green filter bar and press Enter.
+8. Inspect matching packets in the packet list and expand their protocol details.
+9. Clear the display filter using the X control to show all captured packets.
+10. Save the capture using File > Save As with a `.pcapng` filename.
+
+SAMPLE OBSERVATION:
+| Filter | Purpose | Expected observation |
+|---|---|---|
+| `dns` | Isolate name-resolution traffic | DNS queries and responses |
+| `tcp.flags.syn == 1 && tcp.flags.ack == 0` | Find connection attempts | Initial TCP SYN packets |
+| `http.request` | Inspect HTTP requests | GET/POST request details where visible |
+| `ip.addr == 8.8.8.8` | Track one host | Packets to or from that IP |
+
+RESULT:
+Thus, capture filters and display filters were applied in Wireshark, and their syntax, timing, and effect were observed.

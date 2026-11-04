@@ -1,268 +1,49 @@
-Linux Command
-
-Windows Command
-
-ifconfig
-
-ipconfig /all
-
-traceroute
-
-tracert
-
-tcpdump
-
-Wireshark / pktmon /
-WinDump
-
-netstat
-
-netstat
-
-nslookup
-
-nslookup
-
-Windows 10/11 with Internet access
-
-Command Prompt or PowerShell
-
-Admin rights for packet capture tools
-
-PRECAUTION
-
-Capture traffic only on networks where you have
-permission.
-
-02
-
-Experiment 1 â Network Configuration
-
-View IP address, subnet mask, gateway, DNS and MAC details.
-
-ipconfig
-
-ipconfig /all
-
-ipconfig | findstr IPv4
-
-IPv4 Address
-
-Subnet Mask
-
-Default Gateway
-
-DNS Servers
-
-Observation to record
-
-IPv4 address
-
-Subnet mask
-
-Default gateway
-
-DHCP enabled status
-
-MAC / Physical address
-
-Result: Network adapter details are identified
-successfully.
-
-03
-
-Experiment 2 â Connectivity Test Using Ping
-
-Verify reachability and measure round-trip time.
-
-ping 127.0.0.1
-
-ping 8.8.8.8
-
-ping -n 10 google.com
-
-ping -t google.com
-
-Your PC
-
-Internet Host
-
-8.8.8.8
-
-Echo Request â¢ ICMP Type 8
-
-Echo Reply â¢ ICMP Type 0
-
-Reply from: host reached
-
-time: round-trip delay
-
-TTL: remaining hop limit
-
-Packet loss: reliability indicator
-
-04
-
-Experiment 3 â Active Connections Using Netstat
-
-Inspect TCP states, ports, PIDs and routing information.
-
-netstat
-
-netstat -a
-
-netstat -n
-
-netstat -o
-
-netstat -ano
-
-netstat -r
-
-netstat -s
-
-LISTENING
-
-Waiting
-
-ESTABLISHED
-
-Active
-
-TIME_WAIT
-
-Closing
-
-SYN_SENT
-
-Request sent
-
-Find application using a port
-
-tasklist | findstr PID_NUMBER
-
-Result: Active network connections and
-listening ports are identified.
-
-05
-
-Experiments 4 & 5 â DNS Lookup and Route Tracing
-
-Resolve names using DNS, then identify intermediate routers.
-
-nslookup google.com
-
-nslookup -type=mx gmail.com
-
-tracert -d 8.8.8.8
-
-tracert -h 15 google.com
-
-Domain
-
-google.com
-
-DNS Server
-
-IP Address
-
-142.x.x.x
-
-PC
-
-R1
-
-R2
-
-R3
-
-Dest.
-
-* means a router did not respond before timeout.
-
-06
-
-Experiment 6 â Packet Capture Alternative to Tcpdump
-
-Use pktmon or Wireshark on Windows to capture traffic.
-
+AIM:
+To learn network commands and capture ping and route-tracing packets using a network protocol analyser.
+
+SOFTWARE REQUIRED:
+- Windows 10/11 computer with an active network connection.
+- Command Prompt or PowerShell.
+- Wireshark with Npcap, or Windows Packet Monitor (Pktmon).
+- Administrator privileges for packet capture.
+
+WINDOWS COMMAND REFERENCE:
+| Purpose | Windows command |
+|---|---|
+| View IP configuration | `ipconfig` / `ipconfig /all` |
+| Active connections and listening ports | `netstat -ano` |
+| Routing table | `route print` or `netstat -r` |
+| DNS lookup | `nslookup www.google.com` |
+| Trace route | `tracert www.google.com` |
+| Test connectivity | `ping -n 4 www.google.com` |
+| Hostname | `hostname` |
+| Adapter MAC addresses | `getmac /v` |
+| ARP cache | `arp -a` |
+| Running processes | `tasklist` |
+
+LINUX COMMAND EQUIVALENTS:
+`ip addr`, `ip route`, `ss -ano`, `nslookup`, `traceroute`, `ping`, `hostname`, `ip link`, `ip neigh`, and `ps` are common equivalents. `tcpdump` is available on Linux; on Windows use Wireshark/Npcap or Pktmon instead.
+
+PROCEDURE (WINDOWS):
+1. Open Command Prompt. Run `ipconfig /all` and note the IPv4 address, subnet mask, default gateway, DNS server, and physical address.
+2. Run `netstat -ano` to inspect active TCP/UDP endpoints and process IDs. Use `tasklist /fi "PID eq <number>"` to map a PID to a process.
+3. Run `nslookup www.google.com` to view DNS resolution.
+4. Run `tracert www.google.com` to inspect the route and hop response times.
+5. Run `ping -n 4 www.google.com` and note replies, round-trip times, and packet loss.
+6. Run `getmac /v` and `arp -a` to inspect MAC addresses and the ARP cache.
+7. Launch Wireshark as administrator, select the active Wi-Fi/Ethernet interface, and start capture before running ping/tracert.
+8. Apply `icmp` as a display filter to inspect ping packets. Inspect Echo Request and Echo Reply details.
+9. Stop the capture and save it as `.pcapng` if required.
+
+WINDOWS PKTMON ALTERNATIVE:
+Run Command Prompt as Administrator:
+```bat
 pktmon start --capture --pkt-size 0
-
-ping 8.8.8.8
-
-pktmon stop
-
-pktmon format PktMon.etl -o packetlog.txt
-
-pktmon etl2pcap PktMon.etl -o packetcapture.pcapng
-
-Capture
-
-ETL file
-
-Convert
-
-PCAPNG
-
-Open in
-
-Wireshark
-
-Run as Administrator for packet capture commands.
-
-07
-
-Experiment 7 â Capture Ping PDUs in Wireshark
-
-Filter ICMP and inspect Echo Request / Echo Reply packets.
-
 ping -n 4 8.8.8.8
+pktmon stop
+pktmon etl2pcap PktMon.etl --out packetcapture.pcapng
+```
+Open `packetcapture.pcapng` in Wireshark. Options can vary by Windows build; `pktmon help` shows supported syntax.
 
-Wireshark filter: icmp
-
-icmp.type == 8 // Echo Request
-
-icmp.type == 0 // Echo Reply
-
-Frame
-
-Ethernet
-
-IP
-
-ICMP
-
-Source / destination IP
-
-TTL and protocol
-
-ICMP type and code
-
-Identifier and sequence
-
-Checksum and data payload
-
-Match request and reply using Identifier +
-Sequence Number.
-
-08
-
-Experiment 8 â Capture Traceroute
-
-Windows tracert uses ICMP probes with increasing TTL values.
-
-PC
-
-Router 1
-
-Router 2
-
-Router 3
-
-Destination
-
-tracert -d 8.8.8.8
-
-icmp.type == 11 // Time Exceeded
-
-icmp.type == 8 || type == 11 || type == 0
+RESULT:
+Thus, common network commands were executed, and ping/route-tracing packets were captured and examined using a network protocol analyser.

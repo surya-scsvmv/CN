@@ -1,0 +1,56 @@
+AIM:
+To study the various network topologies — bus, star, ring, mesh, tree, and hybrid — and to physically construct and observe them using the Benchmark LAN Trainer Kit.
+
+SOFTWARE / HARDWARE REQUIRED:
+- Benchmark LAN Trainer Kit with node modules, central hub/switch module, and patch cords.
+- RJ-45 patch cords or the kit's supplied connectors.
+- Kit power supply and observation/indicator panel.
+
+THEORY:
+Network topology is the physical or logical arrangement in which network nodes are interconnected. It determines how data flows, how much cabling is needed, how a network behaves when a link or node fails, and how easily it can be expanded. The LAN Trainer Kit allows topologies to be wired and their signal paths, fault effects, and expandability to be observed using the indicator panel.
+
+TOPOLOGY COMPARISON:
+| Topology | Arrangement | Advantages | Disadvantages |
+|---|---|---|---|
+| Bus | All nodes share one backbone cable with terminators at both ends. | Simple, least cabling, low cost. | A backbone fault can stop the whole segment; troubleshooting is difficult. |
+| Star | Every node connects to a central hub/switch. | Easy to add/remove nodes; one node-link failure does not affect others. | Central-device failure stops the network; more cable is needed. |
+| Ring | Nodes form a closed loop and data passes node to node. | Orderly, predictable flow; token passing can avoid collisions. | A link break can halt the ring; adding nodes can disrupt it. |
+| Mesh | Every node connects directly to every other node. | Multiple paths and high fault tolerance. | High cost and large cabling requirement. |
+| Tree | Groups of star networks connect through a hierarchical backbone. | Scalable and suitable for structured networks. | Backbone failure affects large sections; design is complex. |
+| Hybrid | Combination of two or more topologies. | Flexible and adaptable. | Design and management can be complex and costly. |
+
+PROCEDURE:
+1. Place the LAN Trainer Kit on the bench, connect its power supply, switch it on, and confirm that the indicator LEDs function.
+2. Identify the node modules, central hub/switch module, backbone connector, and supplied patch cords.
+
+Bus topology:
+3. Connect all node modules along the common backbone and fit terminators at both ends.
+4. Send data from one node. Observe the shared signal on the indicator panel and note that only the addressed node accepts it.
+5. Disconnect the backbone at a midpoint and observe how communication beyond the break is affected.
+
+Star topology:
+6. Connect every node to a separate port on the central hub/switch using patch cords.
+7. Transmit data from one node and observe it passing through the central device to the destination.
+8. Disconnect one node cable and verify that other nodes remain connected. Then power off the central device and observe the network failure.
+
+Ring topology:
+9. Connect the output of each node to the input of the next, forming a closed loop back to the first node.
+10. Send data and observe it moving from node to node around the ring.
+11. Open one link and observe the interruption in the ring's data flow.
+
+Mesh topology:
+12. Use patch cords to connect each node directly to every other node, as supported by the kit.
+13. Transmit between two nodes and remove one link. Observe whether an alternate direct path maintains communication.
+14. For each topology, record the number of cables used, the path taken by data, and the effect of a single link or node failure.
+15. Where the kit supports it, arrange and identify tree and hybrid structures and record their connectivity and failure behaviour.
+
+SAMPLE OBSERVATION:
+| Topology | Cables used for n nodes | Effect of one link failure | Ease of adding a node |
+|---|---|---|---|
+| Bus | n plus backbone | Whole segment may fail | Easy |
+| Star | n | Only the attached node is affected | Very easy |
+| Ring | n | Ring flow is interrupted | Difficult |
+| Full mesh | n(n−1)/2 | Alternate paths may maintain communication | Difficult |
+
+RESULT:
+Thus, bus, star, ring, and mesh network topologies were studied and physically constructed using the Benchmark LAN Trainer Kit. Tree and hybrid arrangements can also be observed where supported by the available kit modules.

@@ -1,0 +1,41 @@
+AIM:
+To capture and inspect live packets on a network interface using Wireshark and examine protocol layers, TCP conversations, and traffic statistics.
+
+SOFTWARE REQUIRED:
+- Windows 10/11 computer connected through Wi-Fi or Ethernet.
+- Wireshark installed with Npcap.
+- Administrator privileges for packet capture.
+- Command Prompt or PowerShell and a web browser.
+
+THEORY:
+Network applications exchange data in packets. Wireshark captures traffic from a selected network interface and decodes protocol headers. A packet can be inspected across Ethernet, IP, TCP/UDP, and application layers. The main window provides a packet list, a decoded packet-details tree, and raw packet bytes. Statistics such as Protocol Hierarchy, Conversations, Endpoints, and I/O Graph help summarize network activity.
+
+PROCEDURE (WINDOWS):
+1. Install Wireshark and Npcap. Launch Wireshark using Run as administrator.
+2. On the welcome screen, identify the active Wi-Fi or Ethernet interface by its traffic graph.
+3. Double-click the interface to start capturing packets.
+4. Open Command Prompt and generate controlled traffic:
+   ```bat
+   ping -n 4 www.google.com
+   nslookup www.google.com
+   ```
+5. Return to Wireshark and allow packets to appear in the packet list.
+6. Stop the capture using the red square button.
+7. Enter `dns` in the display-filter bar to view DNS packets. Enter `icmp` to view ping packets.
+8. Select a packet and expand Ethernet, Internet Protocol, TCP/UDP, and application-layer sections in the packet-details pane.
+9. Right-click a TCP packet and choose Follow > TCP Stream to inspect the conversation, when the captured traffic is suitable.
+10. Open Statistics > Protocol Hierarchy to inspect protocol distribution.
+11. Open Statistics > Conversations and Statistics > Endpoints to inspect communicating hosts and traffic counts.
+12. Optionally open Statistics > I/O Graph to view packet activity over time.
+13. Save the capture using File > Save As and use the `.pcapng` extension.
+
+SAMPLE OBSERVATION:
+| Packet | Source | Destination | Protocol | Observation |
+|---|---|---|---|---|
+| 1 | Local host | DNS server | DNS | Query for www.google.com |
+| 2 | DNS server | Local host | DNS | DNS response |
+| 3 | Local host | Destination | ICMP | Echo request |
+| 4 | Destination | Local host | ICMP | Echo reply, if received |
+
+RESULT:
+Thus, packets were captured from the selected network interface and inspected using Wireshark. Protocol layers, conversations, and traffic statistics were examined.

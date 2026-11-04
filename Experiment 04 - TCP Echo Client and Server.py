@@ -1,72 +1,60 @@
-#echo server
+# AIM: To implement an echo server and client using TCP sockets.
+# ALGORITHM:
+# Server: create a TCP socket, bind to a port, listen, and accept a client.
+# Receive each message and send the same bytes back until the client disconnects.
+# Client: connect to the server, read messages, send them, and display echoed replies.
+# Type exit to close the client connection; stop the server with Ctrl+C.
+
 import socket
+
+HOST = "127.0.0.1"
+PORT = 65432
+
+
 def echo_server():
-try:
-# Create TCP socket (IPv4 + TCP)
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server.bind((HOST, PORT))
+        server.listen(5)
+        print(f"Echo server listening on {HOST}:{PORT}")
+        try:
+            while True:
+                connection, address = server.accept()
+                with connection:
+                    print("Connected:", address)
+                    while True:
+                        data = connection.recv(1024)
+                        if not data:
+                            break
+                        print("Received:", data.decode(errors="replace"))
+                        connection.sendall(data)
+        except KeyboardInterrupt:
+            print("\nServer stopped.")
 
-# Allow address reuse (prevents &quot;Address already in use&quot; error)
-server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-# Bind to localhost and port
-server_socket.bind((&#39;127.0.0.1&#39;, 65432))
-
-# Listen for incoming connections
-server_socket.listen(5)
-print(&quot;Server listening on port 65432...&quot;)
-
-while True:
-# Accept client connection
-connection, client_address = server_socket.accept()
-print(f&quot;Connected by {client_address}&quot;)
-
-while True:
-# Receive data
-
-data = connection.recv(1024)
-if not data:
-break
-
-message = data.decode()
-print(f&quot;Received: {message}&quot;)
-
-# Send back same data (Echo)
-connection.sendall(data)
-
-connection.close()
-print(&quot;Client disconnected\n&quot;)
-
-except KeyboardInterrupt:
-print(&quot;\nServer stopped manually.&quot;)
-except Exception as e:
-print(&quot;Error:&quot;, e)
-finally:
-server_socket.close()
-if __name__ == &#39;__main__&#39;:
-echo_server()
-
-#Python Code:
-#b,Echo Client:
-import socket
 
 def echo_client():
-# Create a TCP/IP socket
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# Connect to the server
-client_socket.connect((&#39;localhost&#39;, 65432))
+    with socket.create_connection((HOST, PORT), timeout=10) as client:
+        print("Connected to echo server. Type exit to quit.")
+        while True:
+            message = input("You: ")
+            client.sendall(message.encode())
+            reply = client.recv(1024)
+            if not reply:
+                print("Server disconnected.")
+                break
+            print("Echo:", reply.decode(errors="replace"))
+            if message.lower() == "exit":
+                break
 
-while True:
-# Send data to the server
-message = input(&quot;Enter a message: &quot;)
-client_socket.sendall(message.encode())
-# Receive the echo response from the server
-data = client_socket.recv(1024)
-print(f&quot;Echoed from server: {data.decode()}&quot;)
-if message.lower() == &#39;exit&#39;:
-break
 
-client_socket.close()
-
-if __name__ == &#39;__main__&#39;:
-
-echo_client()
+if __name__ == "__main__":
+    role = input("Run as server or client? [s/c]: ").strip().lower()
+    try:
+        if role == "s":
+            echo_server()
+        elif role == "c":
+            echo_client()
+        else:
+            print("Enter s for server or c for client.")
+    except OSError as error:
+        print("Network error:", error)

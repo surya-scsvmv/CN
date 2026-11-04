@@ -1,0 +1,80 @@
+AIM:
+To learn how to write and apply Wireshark filter expressions — both capture filters and display filters — so that only relevant packets are captured or shown during network analysis.
+
+SOFTWARE REQUIRED:
+- Computer with an active network interface (Ethernet or Wi-Fi).
+- Wireshark (version 3.x or later) installed with Npcap on Windows.
+- Administrator privileges for packet capture.
+
+THEORY:
+Wireshark is an open-source protocol analyser that captures live traffic from a network interface and lets users examine packet fields. Filters isolate relevant traffic from a busy network. Wireshark supports two distinct kinds of filters:
+
+| Aspect | Capture Filter | Display Filter |
+|---|---|---|
+| When applied | Before capture starts | After packets are captured |
+| Syntax | BPF / libpcap syntax | Wireshark display-filter syntax |
+| Effect | Discards non-matching packets from the capture | Hides non-matching packets; captured data is retained |
+| Example | `tcp port 80` | `tcp.port == 80` |
+| Where typed | Capture > Options | Display-filter bar |
+
+A capture filter reduces the amount of data written to disk and cannot be changed for a capture already in progress. A display filter can be changed at any time and can inspect protocol fields.
+
+Display-filter operators:
+| Operator | Meaning | Example |
+|---|---|---|
+| `==` | Equal to | `ip.addr == 10.0.0.1` |
+| `!=` | Not equal to | `tcp.port != 22` |
+| `>` | Greater than | `frame.len > 1000` |
+| `<` | Less than | `tcp.window_size < 500` |
+| `&&` | Logical AND | `ip.src == 10.0.0.1 && tcp.port == 80` |
+| `||` | Logical OR | `dns || http` |
+| `!` | Logical NOT | `!arp` |
+
+PROCEDURE (WINDOWS):
+1. Launch Wireshark. The welcome screen lists available network interfaces and their activity graphs.
+2. To use a capture filter, open Capture > Options. In the capture-filter field, enter an expression such as `host 192.168.1.10`. Check that Wireshark marks the expression valid.
+3. Select the relevant interface (Wi-Fi or Ethernet) and click Start.
+4. Generate network traffic by opening a web page or running a ping command.
+5. To filter the captured packets, type a display filter such as `http.request` in the green filter bar and press Enter.
+6. Select a packet to inspect the decoded protocol tree and raw bytes.
+7. Clear the display filter with the X control to view all captured packets.
+8. Stop the capture using the red square button. Save it through File > Save As as a `.pcapng` file if required.
+
+WORKED EXAMPLES:
+
+Capture filters (enter in Capture > Options):
+```text
+host 192.168.1.10
+net 192.168.1.0/24
+src host 192.168.1.10
+dst port 53
+tcp port 443
+udp
+not arp and not broadcast
+tcp port 80 and host 192.168.1.10
+```
+
+Display filters (enter in the green filter bar):
+```text
+ip.addr == 192.168.1.10
+ip.src == 192.168.1.10
+tcp.port == 80
+http
+dns
+http.request.method == "GET"
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+tcp.analysis.retransmission
+ip.addr == 192.168.1.10 && tcp.port == 443
+frame contains "example"
+```
+
+SAMPLE OBSERVATION:
+| Filter applied | Purpose | Result to observe |
+|---|---|---|
+| `dns` | Isolate name-resolution traffic | DNS query and response packets |
+| `tcp.flags.syn == 1 && tcp.flags.ack == 0` | Find connection attempts | Initial SYN packets |
+| `http.request` | View outbound HTTP requests | GET/POST request fields when HTTP is visible |
+| `ip.addr == 8.8.8.8` | Track a destination | Packets to or from 8.8.8.8 |
+
+RESULT:
+Thus, capture filters and display filters were written and applied successfully in Wireshark, and the difference between them — syntax, timing, and effect — was verified through the observed output.
