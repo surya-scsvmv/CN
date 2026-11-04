@@ -1,0 +1,40 @@
+AIM:
+To study bus, star, ring, mesh, tree, and hybrid network topologies and physically construct and observe them using the Benchmark LAN Trainer Kit.
+
+ALGORITHM:
+1. Place the LAN Trainer Kit on the bench, connect its power supply, and switch it on.
+2. Identify node modules, the central hub/switch module, backbone connector, and patch cords.
+3. Construct the bus topology using a shared backbone and terminators at both ends.
+4. Send data and observe the signal on the indicator panel; disconnect the backbone to observe the effect of a link failure.
+5. Construct the star topology by connecting each node to the central hub/switch.
+6. Send data, disconnect one node cable, and then power off the central device to observe both failure cases.
+7. Construct the ring topology by connecting nodes in a closed loop and observe data circulation.
+8. Open one ring link and observe the interruption.
+9. Construct the mesh topology by connecting each node directly to the other nodes.
+10. Remove one mesh link and observe whether communication continues over another path.
+11. Record cable count, data path, and the effect of a single link or node failure for each topology.
+
+SOFTWARE / HARDWARE REQUIRED:
+- Benchmark LAN Trainer Kit with node modules.
+- Central hub/switch module.
+- RJ-45 patch cords or supplied connectors.
+- Kit power supply and observation/indicator panel.
+
+THEORY
+Network topology is the physical or logical arrangement in which nodes are interconnected. It affects data flow, cabling, fault tolerance, and ease of expansion.
+
+TOPOLOGY COMPARISON
+
+Topology | Arrangement | Advantage | Limitation
+Bus | All nodes share one backbone cable with terminators at both ends. | Simple and requires less cabling. | A backbone fault can stop the whole segment.
+Star | Every node connects to a central hub or switch. | Easy to add or remove nodes; one node link failure is isolated. | Failure of the central device stops the network.
+Ring | Nodes form a closed loop. | Predictable data flow. | A single break can interrupt the ring.
+Mesh | Each node connects directly to every other node. | Multiple paths and high fault tolerance. | Requires many cables.
+Tree | Groups of star networks connect through a backbone. | Scalable hierarchical structure. | Backbone failure can affect large sections.
+Hybrid | Combination of two or more topologies. | Flexible design. | More complex and costly to manage.
+
+OBSERVATION
+Record the number of cables used, the path taken by data, and the effect of disconnecting one link or node for every topology constructed. The manual's sample table gives bus, star, ring, and mesh examples; actual observations depend on the trainer kit and setup.
+
+RESULT:
+The bus, star, ring, and mesh topologies were studied and physically constructed using the Benchmark LAN Trainer Kit. Tree and hybrid topologies are included in the study objectives and comparison.
