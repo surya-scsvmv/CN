@@ -1,6 +1,14 @@
-# Experiment 10: Link State Routing using NS2
-# Demonstrates link-state routing (LS) in a multi-hop topology.
-# Run: ns "Experiment 10 - Link State Routing using NS2.tcl"
+# AIM:
+# To simulate the Link State Routing Algorithm using the NS-2 simulation tool.
+#
+# ALGORITHM:
+# 1. Create an NS-2 simulator and open trace and NAM output files.
+# 2. Enable the Link State routing protocol using rtproto LS.
+# 3. Create six nodes and connect them in a mesh topology with alternate paths.
+# 4. Attach a UDP source at node 0 and a Null sink at node 5.
+# 5. Attach a CBR traffic generator and configure packet size and interval.
+# 6. Start traffic, disable one link, restore the link, and stop traffic at scheduled times.
+# 7. Close output files and run NAM to observe the simulation.
 
 set ns [new Simulator]
 
@@ -9,15 +17,12 @@ set namfile [open "link_state.nam" w]
 $ns trace-all $tracefile
 $ns namtrace-all $namfile
 
-# Enable the link-state routing protocol.
 $ns rtproto LS
 
-# Create six network nodes.
 for {set i 0} {$i < 6} {incr i} {
     set n($i) [$ns node]
 }
 
-# Build a mesh with two possible routes between source and destination.
 $ns duplex-link $n(0) $n(1) 2Mb 10ms DropTail
 $ns duplex-link $n(1) $n(2) 2Mb 10ms DropTail
 $ns duplex-link $n(2) $n(5) 2Mb 10ms DropTail
@@ -26,7 +31,6 @@ $ns duplex-link $n(3) $n(4) 2Mb 10ms DropTail
 $ns duplex-link $n(4) $n(5) 2Mb 10ms DropTail
 $ns duplex-link $n(1) $n(4) 1Mb 15ms DropTail
 
-# Configure link orientation for a readable NAM layout.
 $ns duplex-link-op $n(0) $n(1) orient right-down
 $ns duplex-link-op $n(1) $n(2) orient right-down
 $ns duplex-link-op $n(2) $n(5) orient down
@@ -34,7 +38,6 @@ $ns duplex-link-op $n(0) $n(3) orient right-up
 $ns duplex-link-op $n(3) $n(4) orient right-up
 $ns duplex-link-op $n(4) $n(5) orient right-up
 
-# UDP traffic from node 0 to node 5, carried over the LS-computed route.
 set udp [new Agent/UDP]
 $ns attach-agent $n(0) $udp
 set sink [new Agent/Null]
@@ -46,7 +49,6 @@ $cbr set packetSize_ 512
 $cbr set interval_ 0.05
 $cbr attach-agent $udp
 
-# Break one link during the simulation. LS routing should recompute routes.
 $ns at 0.5 "$cbr start"
 $ns at 2.0 "$ns link $n(1) $n(2) down"
 $ns at 3.5 "$ns link $n(1) $n(2) up"
