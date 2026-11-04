@@ -1,39 +1,41 @@
+# AIM:
+# To write an HTTP web client program to download a webpage using TCP sockets.
+#
+# ALGORITHM:
+# 1. Create an IPv4 TCP socket.
+# 2. Connect the socket to the web server on TCP port 80.
+# 3. Construct and send an HTTP GET request with the Host and Connection headers.
+# 4. Receive response bytes until the server closes the connection.
+# 5. Decode and display the HTTP response, then close the socket.
+
 import socket
-def download_web_page(hostname, port, path):
-try:
-# Create a socket object (IPv4 + TCP)
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Connect to the server
-client_socket.connect((hostname, port))
 
-# Prepare HTTP GET request
-request = f&quot;GET {path} HTTP/1.1\r\nHost: {hostname}\r\nConnection: close\r\n\r\n&quot;
+def download_web_page(hostname, port=80, path="/"):
+    request = (
+        f"GET {path} HTTP/1.1\r\n"
+        f"Host: {hostname}\r\n"
+        "Connection: close\r\n"
+        "\r\n"
+    )
 
-# Send request to server
-client_socket.sendall(request.encode())
+    with socket.create_connection((hostname, port), timeout=10) as client_socket:
+        client_socket.sendall(request.encode("ascii"))
+        response = bytearray()
 
-# Receive response from server
-response = b&quot;&quot;
-while True:
-data = client_socket.recv(4096)
-if not data:
-break
-response += data
+        while True:
+            data = client_socket.recv(4096)
+            if not data:
+                break
+            response.extend(data)
 
-# Close the connection
-client_socket.close()
+    return response.decode("utf-8", errors="replace")
 
-# Decode safely (avoid Unicode error)
-return response.decode(errors=&quot;ignore&quot;)
 
-except Exception as e:
-return f&quot;Error occurred: {e}&quot;
-
-# Example usage
-hostname = &quot;example.com&quot; # Avoid https site with port 80
-port = 80
-path = &quot;/&quot;
-
-response = download_web_page(hostname, port, path)
-print(response)
+if __name__ == "__main__":
+    hostname = input("Enter HTTP website hostname (default: example.com): ").strip()
+    hostname = hostname or "example.com"
+    try:
+        print(download_web_page(hostname))
+    except OSError as error:
+        print("Unable to download the webpage:", error)
