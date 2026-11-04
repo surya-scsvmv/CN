@@ -1,0 +1,81 @@
+AIM:
+To learn how to write and apply Wireshark capture filters and display filters for packet capture and analysis.
+
+ALGORITHM:
+1. Launch Wireshark and select the active network interface.
+2. Open Capture > Options and enter a capture filter if required.
+3. Start capturing packets and generate traffic using ping, DNS lookup, or a browser.
+4. Enter a display filter in the green filter bar and press Enter.
+5. Select packets and inspect the decoded protocol layers and raw bytes.
+6. Clear the display filter, stop the capture, and save the capture if required.
+
+SOFTWARE REQUIRED:
+- Windows 10/11 computer with an active Ethernet or Wi-Fi interface.
+- Wireshark 3.x or later with Npcap installed.
+- Administrator privileges for packet capture.
+
+CAPTURE FILTERS
+Enter these in Capture > Options before starting the capture. Capture filters use BPF/libpcap syntax.
+
+host 192.168.1.10
+net 192.168.1.0/24
+src host 192.168.1.10
+dst port 53
+tcp port 443
+udp
+not arp and not broadcast
+tcp port 80 and host 192.168.1.10
+
+DISPLAY FILTERS
+Enter these in the green filter bar after packets have been captured.
+
+ip.addr == 192.168.1.10
+ip.src == 192.168.1.10
+tcp.port == 80
+http
+dns
+http.request.method == "GET"
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+tcp.analysis.retransmission
+ip.addr == 192.168.1.10 && tcp.port == 443
+frame contains "password"
+
+COMPARISON AND LOGICAL OPERATORS
+
+==   or eq   Equal to
+!=   or ne   Not equal to
+>    or gt   Greater than
+<    or lt   Less than
+&&   or and  Logical AND
+||   or or   Logical OR
+!    or not  Logical NOT
+
+EXAMPLE FILTERS FOR OBSERVATION
+
+dns
+Purpose: Isolate DNS query and response traffic.
+
+tcp.flags.syn==1 && tcp.flags.ack==0
+Purpose: Find TCP connection initiation packets.
+
+http.request
+Purpose: Show HTTP requests with host and URI information.
+
+ip.addr==8.8.8.8
+Purpose: Show packets to or from the specified IP address.
+
+PROCEDURE
+1. Launch Wireshark.
+2. For a capture filter, choose Capture > Options and enter an expression such as host 192.168.1.10.
+3. Select the active Wi-Fi or Ethernet interface and click Start.
+4. Generate traffic by opening a website or running a ping command.
+5. Type a display filter such as dns or http.request in the filter bar and press Enter.
+6. Select a packet to inspect the protocol tree and raw bytes.
+7. Clear the filter using the X control.
+8. Stop capture and save the result as a .pcapng file if required.
+
+RESULT:
+Capture filters and display filters were applied successfully, and their syntax, timing, and effect were observed.
+
+NOTE:
+Capture filters discard non-matching packets before capture. Display filters only hide packets from the current view and do not delete them from the capture.
