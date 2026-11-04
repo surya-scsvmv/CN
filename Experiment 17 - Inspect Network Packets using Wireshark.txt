@@ -1,0 +1,49 @@
+AIM:
+To capture live traffic from a network interface and inspect packets by examining protocol layers, following a TCP conversation, and reading traffic statistics to understand how data is exchanged on a network.
+
+SOFTWARE REQUIRED:
+- Computer connected to a live network through Ethernet or Wi-Fi.
+- Wireshark installed with Npcap on Windows.
+- Administrator privileges for packet capture.
+- Web browser or ping utility to generate observable traffic.
+
+THEORY:
+Network activity such as loading a web page, resolving a domain, or sending a message is carried in packets. Wireshark captures packets and decodes them according to protocol layers.
+
+| Layer | Example protocol | Information visible in Wireshark |
+|---|---|---|
+| Data link | Ethernet II | Source and destination MAC addresses |
+| Network | IPv4 / IPv6 | Source and destination IP addresses, TTL |
+| Transport | TCP / UDP | Port numbers, sequence and acknowledgement numbers, flags |
+| Application | HTTP, DNS, TLS | Requests, responses, queries, and visible metadata/payload |
+
+The Wireshark window has three main panes: packet list, decoded packet details, and raw packet bytes in hexadecimal/ASCII.
+
+PROCEDURE (WINDOWS):
+1. Open Wireshark as administrator. On the welcome screen, double-click the active interface (the one with a moving activity graph).
+2. Generate traffic by opening a website or running the following commands in Command Prompt:
+   ```bat
+   ping www.google.com
+   nslookup www.google.com
+   ```
+3. Watch the packet list fill in. Stop capture using the red square button after a few seconds.
+4. Apply the `dns` display filter to view DNS lookups or `icmp` to view ping packets.
+5. Select a packet and expand the details tree through Ethernet, IP, TCP/UDP, and application layers. Note source/destination addresses and port numbers.
+6. Right-click a TCP packet and choose Follow > TCP Stream to view a reassembled conversation when applicable.
+7. Open Statistics > Protocol Hierarchy to view traffic distribution by protocol.
+8. Open Statistics > Conversations to list communicating host pairs and their byte/packet counts.
+9. Open Statistics > Endpoints to view active addresses.
+10. Optionally open Statistics > I/O Graph to plot traffic volume over time.
+11. Save the capture using File > Save As with a .pcapng extension.
+
+SAMPLE OBSERVATION:
+| Packet | Source IP | Destination IP | Protocol | Information |
+|---:|---|---|---|---|
+| 1 | Local host | DNS server | DNS | Query for www.google.com |
+| 2 | DNS server | Local host | DNS | DNS response |
+| 3 | Local host | Destination IP | TCP | SYN connection request |
+| 4 | Destination IP | Local host | TCP | SYN, ACK response |
+| 5 | Local host | Destination IP | ICMP | Echo request, if generated |
+
+RESULT:
+Thus, live packets were captured from the network interface and inspected in Wireshark. Protocol layers, TCP conversations, and traffic statistics were examined.

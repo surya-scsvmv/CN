@@ -1,97 +1,95 @@
 # Computer Networks Laboratory
 
-A structured collection of **Computer Networks (CN) laboratory experiments** covering network configuration, connectivity testing, packet inspection, DNS, TCP/UDP socket programming, ARP/RARP, and routing simulations using **NS-2**.
-
-<p>
-  <img src="https://img.shields.io/badge/Focus-Computer%20Networks-2563EB?style=flat-square" alt="Computer Networks"/>
-  <img src="https://img.shields.io/badge/Python-Socket%20Programming-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python socket programming"/>
-  <img src="https://img.shields.io/badge/Simulator-NS--2-0F766E?style=flat-square" alt="NS-2"/>
-  <img src="https://img.shields.io/badge/Experiments-11-7C3AED?style=flat-square" alt="11 experiments"/>
-</p>
+A complete collection of **19 Computer Networks laboratory experiments** covering Windows network commands, packet capture and analysis, Python socket programming, ARP/RARP, CRC error detection, NS-2 simulations, Wireshark analysis, Cisco Packet Tracer, and physical LAN topology study.
 
 ## Experiment index
 
 | No. | Experiment | File |
 |---:|---|---|
-| **01** | Network commands, configuration, connectivity, route tracing, and packet analysis | [Experiment 01](<Experiment 01 - Network Commands and Packet Analysis.txt>) |
-| **02** | Machine hostname, local/public IP, DNS lookup, ping, and service-port checks using Python | [Experiment 02](<Experiment 02 - Machine Hostname and IP Address.py>) |
-| **03** | HTTP GET request using a TCP socket | [Experiment 03](<Experiment 03 - HTTP Web Client and Server using TCP Sockets.py>) |
+| **01** | Windows network commands and packet analysis | [Experiment 01](<Experiment 01 - Network Commands and Packet Analysis.txt>) |
+| **02** | Machine hostname and IP address using Python | [Experiment 02](<Experiment 02 - Machine Hostname and IP Address.py>) |
+| **03** | HTTP web client using TCP sockets | [Experiment 03](<Experiment 03 - HTTP Web Client and Server using TCP Sockets.py>) |
 | **04** | TCP echo client and server | [Experiment 04](<Experiment 04 - TCP Echo Client and Server.py>) |
-| **05** | Multi-client TCP chat application using threads | [Experiment 05](<Experiment 05 - TCP Multi-Client Chat Application.py>) |
-| **06** | TCP client-server file transfer | [Experiment 06](<Experiment 06 - TCP File Transfer.py>) |
-| **07** | ARP and RARP lookup simulation | [Experiment 07](<Experiment 07 - ARP and RARP Protocol.py>) |
-| **08** | TCP and UDP traffic simulation using NS-2 | [Experiment 08](<Experiment 08 - TCP and UDP Simulation using NS2.tcl>) |
-| **09** | Distance Vector routing simulation using NS-2 | [Experiment 09](<Experiment 09 - Distance Vector Routing using NS2.tcl>) |
-| **10** | Link State routing simulation using NS-2 | [Experiment 10](<Experiment 10 - Link State Routing using NS2.tcl>) |
-| **11** | Local hostname and IP address discovery using Python sockets | [Experiment 11](<Experiment 11 - Local DNS and IP Address.py>) |
+| **05** | Multi-client TCP chat application | [Experiment 05](<Experiment 05 - TCP Multi-Client Chat Application.py>) |
+| **06** | TCP file transfer | [Experiment 06](<Experiment 06 - TCP File Transfer.py>) |
+| **07** | ARP and RARP protocol simulation | [Experiment 07](<Experiment 07 - ARP and RARP Protocol.py>) |
+| **08** | TCP and UDP simulation using NS-2 | [Experiment 08](<Experiment 08 - TCP and UDP Simulation using NS2.tcl>) |
+| **09** | Distance Vector routing using NS-2 | [Experiment 09](<Experiment 09 - Distance Vector Routing using NS2.tcl>) |
+| **10** | Link State routing using NS-2 | [Experiment 10](<Experiment 10 - Link State Routing using NS2.tcl>) |
+| **11** | Local hostname and IP address discovery | [Experiment 11](<Experiment 11 - Local DNS and IP Address.py>) |
+| **12** | CRC error detection | [Experiment 12](<Experiment 12 - CRC Error Detection.py>) |
+| **13** | Wireshark packet capture and inspection | [Experiment 13](<Experiment 13 - Wireshark Packet Capture and Inspection.txt>) |
+| **14** | Network packet analysis and Wireshark filters | [Experiment 14](<Experiment 14 - Network Packet Analysis and Wireshark Filters.txt>) |
+| **15** | Wireshark filter expressions for packet capture | [Experiment 15](<Experiment 15 - Wireshark Filter Expressions for Packet Capture.txt>) |
+| **16** | RTP packet delay and loss analysis using Wireshark | [Experiment 16](<Experiment 16 - RTP Packet Delay and Loss Analysis using Wireshark.txt>) |
+| **17** | Inspect network packets using Wireshark | [Experiment 17](<Experiment 17 - Inspect Network Packets using Wireshark.txt>) |
+| **18** | Simple LAN using Cisco Packet Tracer | [Experiment 18](<Experiment 18 - Simple LAN using Cisco Packet Tracer.txt>) |
+| **19** | Network topologies using Benchmark LAN Trainer Kit | [Experiment 19](<Experiment 19 - Network Topologies using Benchmark LAN Trainer Kit.txt>) |
 
-## Topics covered
+## Windows setup
 
-- **Network fundamentals:** IP configuration, subnet and gateway information, MAC addresses, connectivity checks, active connections, DNS resolution, and route tracing.
-- **Packet analysis:** packet capture concepts and tools such as Wireshark and Windows Packet Monitor (Pktmon).
-- **Python networking:** hostname and IP discovery, DNS lookups, TCP client-server communication, HTTP requests, multithreaded chat, and file transfer.
-- **Address resolution:** ARP and RARP mapping concepts.
-- **Network simulation:** TCP/UDP traffic, Distance Vector routing, and Link State routing with NS-2.
-
-## Requirements
-
-Install the tools relevant to the experiment you want to run. You do not need every tool for every experiment.
-
-| Tool | Used for |
-|---|---|
-| **Python 3** | Experiments 02–07 and 11 |
-| **NS-2** | Experiments 08–10 |
-| **NAM (Network Animator)** | Visualizing NS-2 simulation output |
-| **Wireshark / Pktmon** | Packet capture and inspection in Experiment 01 |
-| **Windows Command Prompt / PowerShell** | Windows network commands in Experiment 01 |
-| **Linux terminal** | Linux equivalents of common network commands |
-
-### Python setup
-
-Check that Python is installed:
-
-```bash
-python --version
-```
-
-The Python networking examples primarily use the standard library, including `socket`, `threading`, `os`, and `urllib`. No third-party package is required for the basic examples.
-
-### NS-2 setup
-
-Install a compatible NS-2 environment and NAM. Verify that the `ns` and `nam` commands are available:
-
-```bash
-ns
-nam
-```
-
-NS-2 installation steps vary by operating system and distribution. Use an environment supported by your lab setup.
-
-## Running the experiments
+Install Git for Windows and Python 3.9+. During Python installation, enable **Add Python to PATH**. Open PowerShell and verify `py --version`.
 
 Clone the repository:
 
-```bash
+```powershell
 git clone https://github.com/surya-scsvmv/CN.git
 cd CN
 ```
 
-### Python experiments
+Python programs use the standard library; no external packages are required. Run standalone Python experiments using the `py` launcher and quote filenames because they contain spaces:
 
-Run the relevant Python file from the repository directory:
-
-```bash
-python "Experiment 02 - Machine Hostname and IP Address.py"
-python "Experiment 03 - HTTP Web Client and Server using TCP Sockets.py"
-python "Experiment 07 - ARP and RARP Protocol.py"
-python "Experiment 11 - Local DNS and IP Address.py"
+```powershell
+py "Experiment 02 - Machine Hostname and IP Address.py"
+py "Experiment 07 - ARP and RARP Protocol.py"
+py "Experiment 11 - Local DNS and IP Address.py"
+py "Experiment 12 - CRC Error Detection.py"
 ```
 
-For client-server experiments (**04–06**), start the server role first and then connect from the client role. The files contain the corresponding client/server code; check the entry-point sections and run the two roles separately where necessary. Use the same host and port settings on both ends.
+### TCP client/server programs (Experiments 04–06)
 
-### NS-2 simulations
+Open two or more PowerShell windows in the repository folder. Run the same experiment file in each window. In one window enter `s` to start the server; in the other enter `c` to start a client. For Experiment 05, start the server in one terminal and one or more clients in separate terminals. Experiment 06 asks the client for a file path and saves the received file with a `received_` prefix in the server's working directory. These examples bind to `127.0.0.1` and are designed for local tests. Do not expose the demonstration servers to untrusted networks.
 
-Run an NS-2 script from the repository directory:
+### HTTP TCP client (Experiment 03)
+
+```powershell
+py "Experiment 03 - HTTP Web Client and Server using TCP Sockets.py"
+```
+
+Enter a hostname that supports plain HTTP on port 80 (for example `neverssl.com`) and a path such as `/`. This example does not implement HTTPS/TLS.
+
+### Windows network commands (Experiment 01)
+
+Run these in Command Prompt or PowerShell:
+
+```powershell
+ipconfig /all
+netstat -ano
+route print
+nslookup www.google.com
+tracert www.google.com
+ping -n 4 www.google.com
+getmac /v
+arp -a
+tasklist
+```
+
+For packet capture, install Wireshark with Npcap, launch it as administrator, and select the active Wi-Fi/Ethernet interface. Use display filters such as `icmp`, `dns`, `tcp`, `udp`, or `rtp`. Capture only traffic you are authorised to inspect.
+
+Pktmon is a Windows packet-capture alternative (run an elevated terminal):
+
+```powershell
+pktmon start --capture --pkt-size 0
+ping -n 4 8.8.8.8
+pktmon stop
+pktmon etl2pcap PktMon.etl --out packetcapture.pcapng
+```
+
+Open the resulting `.pcapng` file in Wireshark. Use `pktmon help` if options differ on your Windows build.
+
+### NS-2 scripts (Experiments 08–10)
+
+NS-2 is not natively bundled with Windows. Use an Ubuntu environment or WSL2 with a compatible NS-2 and NAM installation. NAM needs a working Linux GUI environment (such as WSLg where supported). From the repository folder in that Linux environment, run:
 
 ```bash
 ns "Experiment 08 - TCP and UDP Simulation using NS2.tcl"
@@ -99,52 +97,32 @@ ns "Experiment 09 - Distance Vector Routing using NS2.tcl"
 ns "Experiment 10 - Link State Routing using NS2.tcl"
 ```
 
-The scripts generate trace or NAM output files in the working directory. Open a generated NAM file with NAM when the simulation script has not already launched it:
+Experiments 08–09 create `out.nam`; Experiment 09 also creates `trace.tr`. Experiment 10 creates `link_state.nam` and `link_state.tr`. The scripts invoke NAM at completion. To open the animation manually use `nam out.nam` or `nam link_state.nam`.
 
-```bash
-nam out.nam
-```
+### Cisco Packet Tracer (Experiment 18)
 
-Experiment 10 writes `link_state.nam` and `link_state.tr`; its NAM output can be opened with:
+Install Cisco Packet Tracer for Windows. Add one 2960 switch and three PCs, connect each PC FastEthernet0 to a switch port with Copper Straight-Through cable, then configure:
 
-```bash
-nam link_state.nam
-```
+| PC | IP address | Subnet mask |
+|---|---|---|
+| PC0 | 192.168.1.1 | 255.255.255.0 |
+| PC1 | 192.168.1.2 | 255.255.255.0 |
+| PC2 | 192.168.1.3 | 255.255.255.0 |
 
-Output filenames and visualization behavior depend on the individual script.
+From each PC's Desktop > Command Prompt, test with `ping 192.168.1.2` and `ping 192.168.1.3`. Save the project as `.pkt`.
 
-## Suggested lab workflow
+### Benchmark LAN Trainer Kit (Experiment 19)
 
-1. Read the experiment file and identify its objective.
-2. Check the required operating system, runtime, simulator, and permissions.
-3. Inspect the commands or source code before execution.
-4. Run the experiment with a small, controlled test case.
-5. Record the observed output, packet behavior, or routing result in your lab record.
-6. Note any environment-specific changes needed to reproduce the result.
+This is a physical lab exercise, not a Windows program. Use the LAN Trainer Kit, node modules, hub/switch module, patch cords, power supply, and indicator panel to construct and observe bus, star, ring, and mesh topologies. Arrange tree/hybrid layouts only where the supplied modules support them.
 
-## Safety and usage notes
+## Notes
 
-- Run packet captures only on devices and networks where you have permission.
-- Use port checks and connectivity tests only against systems you own or are explicitly authorized to assess.
-- The public-IP lookup in Experiment 02 uses an external IP lookup service and therefore requires internet access.
-- TCP client-server examples are intended for controlled local testing. Do not expose unauthenticated demonstration servers to untrusted networks.
-- Review file paths and transfer behavior before sending or receiving files.
-- NS-2 trace and NAM files are generated artifacts; they may be recreated when the simulations are run.
+- Python source files (Experiments 02–07 and 11–12) start with AIM and ALGORITHM comment blocks; implementation comments have been removed.
+- Experiments 01 and 13–19 are command-, tool-, or hardware-based lab records, not standalone Python programs.
+- Wireshark may require administrator privileges and Npcap.
+- The RTP values in Experiment 16 are sample observations; record values from your own capture.
+- Experiment 19 depends on the physical trainer kit available in the lab.
 
 ## Academic context
 
-Computer Networks Laboratory coursework — **Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya (SCSVMV University)**, B.Tech. Computer Science and Engineering (AI & Data Science).
-
-## Related coursework repositories
-
-- [DBMS Laboratory](https://github.com/surya-scsvmv/DBMS)
-- [Java Programming Lab](https://github.com/surya-scsvmv/JAVA)
-- [C++ Programming Lab](https://github.com/surya-scsvmv/CPP)
-- [Data Structures and Algorithms](https://github.com/surya-scsvmv/DSA)
-- [Design and Analysis of Algorithms](https://github.com/surya-scsvmv/DAA)
-- [Data Visualization Lab](https://github.com/surya-scsvmv/DV)
-
-
----
-
-<p align="center">Learn the protocol. Run the experiment. Observe the network.</p>
+Computer Networks Laboratory — Sri Chandrasekharendra Saraswathi Viswa Mahavidyalaya (SCSVMV University).
